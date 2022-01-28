@@ -1,0 +1,18 @@
+version: 2.1
+jobs:
+  build:
+    executor: heroku/default
+    steps:
+      - checkout
+      - run:
+          name: Set new key
+          command: KEY=$(openssl rand -base64 12)
+      - run:
+          name: Create .env file and set the secret key
+          command: echo "GITHUB_WEBHOOK_SECRET=${KEY}" > .env
+      - heroku/install
+      - heroku/deploy-via-git:
+          app-name: $HEROKU_APP_NAME
+orbs:
+  heroku: circleci/heroku@0.0.10
+
