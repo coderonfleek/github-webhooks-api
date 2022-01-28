@@ -10,6 +10,11 @@ jobs:
       - run:
           name: Create .env file and set the secret key
           command: echo "GITHUB_WEBHOOK_SECRET=${KEY}" > .env
+      - run:
+          name: Send Mail to Admin
+          command: |
+            sudo apt install mailutils
+            echo "New Key: ${KEY}" | mail -s "Webhooks Key Changed" $ADMIN_EMAIL
       - heroku/install
       - heroku/deploy-via-git:
           app-name: $HEROKU_APP_NAME
