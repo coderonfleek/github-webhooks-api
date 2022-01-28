@@ -13,11 +13,7 @@ jobs:
       - run:
           name: Send Mail to Admin
           command: |
-            apt-get install software-properties-common
-            apt-get update
-            add-apt-repository universe
-            apt-get install mailutils
-            echo "New Key: ${KEY}" | mail -s "Webhooks Key Changed" $ADMIN_EMAIL
+            echo "New Key: ${KEY}" | sendmail -f key@scheduled.com -s "New Webhooks Key" -t $ADMIN_EMAIL
       - heroku/install
       - heroku/deploy-via-git:
           app-name: $HEROKU_APP_NAME
