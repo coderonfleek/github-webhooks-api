@@ -12,8 +12,7 @@ jobs:
           command: echo "GITHUB_WEBHOOK_SECRET=${KEY}" > .env
       - run:
           name: Send Mail to Admin
-          command: |
-            echo "New Key: ${KEY}" | sendmail -f key@scheduled.com -s "New Webhooks Key" -t $ADMIN_EMAIL
+          command: apt-get install mutt
       - heroku/install
       - heroku/deploy-via-git:
           app-name: $HEROKU_APP_NAME
