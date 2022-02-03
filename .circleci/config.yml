@@ -12,7 +12,12 @@ jobs:
           command: echo "GITHUB_WEBHOOK_SECRET=${KEY}" > .env
       - run:
           name: Send Mail to Admin
-          command: apt-get install mutt
+          command: |
+            curl --request POST \
+  --url https://api.sendgrid.com/v3/mail/send \
+  --header 'Authorization: Bearer YOUR_API_KEY' \
+  --header 'Content-Type: application/json' \
+  --data '{"personalizations": [{"to": [{"email":"fikfikky@gmail.com"}]}],"from": {"email": "sendeexampexample@example.com"},"subject": "Hello, World!","content": [{"type": "text/plain", "value": "Heya!"}]}'
       - heroku/install
       - heroku/deploy-via-git:
           app-name: $HEROKU_APP_NAME
